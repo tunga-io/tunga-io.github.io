@@ -1,0 +1,609 @@
+- name: User
+  model: TungaUser
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: username
+        type: string
+        desc: unique alphamumeric identifier
+        required: yes
+      - name: email
+        type: string
+        desc: contact email address
+        required: yes
+      - name: first_name
+        type: string
+        desc: user's given name
+        required: yes
+      - name: last_name
+        type: string
+        desc: user's surname
+        required: yes
+      - name: date_joined
+        type: datetime
+        desc: date and time at which the user was joined Tunga
+        required: auto
+      - name: type
+        type: int
+        desc: |
+          type of user
+          ```
+          1 = Developer, 2 = Project Owner, 3 = Project Manager
+          ```
+      - name: image
+        type: string
+        desc: relative local path of user's avatar
+      - name: payoneer_status
+        type: string
+        desc: |
+          current status of user's Payoneer application
+
+          one of `initial, pending, approved or declined`
+
+          default: `initial`
+    api:
+      - name: display_name
+        type: string
+        desc: user's full name
+      - name: avatar_url
+        type: string
+        desc: absolute url of user's avatar
+      - name: display_type
+        type: string
+        desc: |
+          display friendly representation of the user type
+
+          one of `Developer, Project Owner or Project Manager`
+      - name: is_developer
+        type: boolean
+        desc: indicates is user is a developer
+      - name: is_project_manager
+        type: boolean
+        desc: indicates is user is a project manager
+      - name: is_project_owner
+        type: boolean
+        desc: indicates is user is a project owner/ client
+      - name: is_admin
+        type: boolean
+        desc: indicates is user is an admin
+      - name: profile
+        type: Profile
+        internal: true
+        desc: user's profile object
+  api:
+    - title: Inviting users
+      url: https://tunga.io/api/docs/#/invite
+    - title: Get current logged in user
+      url: https://tunga.io/api/docs/#!/auth/auth_verify_list
+    - title: Manage currently logged in user
+      url: https://tunga.io/api/docs/#/me
+    - title: Manage users
+      url: https://tunga.io/api/docs/#/user
+- name: Profile
+  model: UserProfile
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: country
+        type: string
+        desc: |
+          user's country of residence
+
+          must be an [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+          e.g `UG for Uganda, NL - The Netherlands`
+      - name: city
+        type: string
+        desc: user's city of residence
+      - name: street
+        type: string
+        desc: user's street of residence
+      - name: plot_number
+        type: string
+        desc: user's plot number of residence
+      - name: postal_code
+        type: string
+        desc: user's postal code of residence
+      - name: postal_address
+        type: string
+        desc: user's postal address of residence
+      - name: phone_number
+        type: string
+        desc: user's phone number
+      - name: skills
+        type: |
+          list<[Skill](#Skill)>
+        desc: |
+          a list of the user's skills
+
+          saved and parsed as a string of comma separated values e.g
+
+          ```
+          React.js, Django, "Amazon Web Services"
+          ```
+      - name: vat_number
+        type: string
+        desc: user's vat number
+      - name: id_document
+        type: string
+        desc: |
+          absolute url of user’s
+          only applies to clients
+    api:
+      - name: country_name
+        type: string
+        desc: full country name e.g `Uganda` for `UG`
+      - name: city_name
+        type: string
+        desc: string reprensentation of city object
+      - name: skills
+        type: |
+          list<[Skill](#Skill)>
+        desc: |
+          list of [Skill](#Skill) objects
+      - name: skills_details
+        type: |
+          hash<list<[Skill](#Skill)>>
+        desc: |
+          hash of [Skill](#Skill) object lists where each hash key is a skill category
+
+          ```
+          language, framework, platform, library, storage, api and other
+          ```
+  api:
+    - title: Manage currently logged in user
+      url: https://tunga.io/api/docs/#/me
+- name: Skill
+  model: Skill
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: name
+        type: string
+        desc: |
+          name of the skill or product
+
+          e.g `MongoDB, JavaScript e.t.c`
+        required: yes
+- name: Project/ Task
+  model: Task
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user that created the task (owner by default)
+        required: auto
+      - name: title
+        type: string
+        required: yes
+        desc: brief title of the project/ task
+      - name: description
+        type: string
+        required: yes
+        desc: more detailed decription of the project/ task
+      - name: owner
+        type: User
+        internal: true
+        desc: the owner of the task (overrides user when set)
+        required: no
+      - name: pm
+        type: User
+        internal: true
+        desc: project manager for the task, only applies to projects
+        required: no
+      - name: skills
+        type: |
+          list<[Skill](#Skill)>
+        desc: |
+          a list of skills needed to complete the task
+
+          saved and parsed as a string of comma separated values e.g
+
+          ```
+          React.js, Django, "Amazon Web Services"
+          ```
+        required: yes
+      - name: budget
+        type: string
+        desc: budget for the project
+        required: no
+      - name: currency
+        type: string
+        desc: |
+          [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code for the currency in which the payment will be made
+
+          default: `EUR`
+        required: auto
+      - name: type
+        type: string
+        desc: |
+          type of project
+
+          one of `web, mobile, other`
+
+          default: `other`
+        required: yes
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage projects
+      url: https://tunga.io/api/docs/#/task
+- name: Document
+  model: TaskDocument
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: task
+        type: Task
+        internal: true
+        desc: |
+          [Task](#Task) object the document is related to
+        required: true
+      - name: url
+        type: string
+        desc: absolute url for the document, used for shared documents links e.g Google Drive and Dropbox
+      - name: file
+        type: object
+        desc: Uploaded file object, used for directly uploaded documents
+      - name: type
+        type: string
+        desc: |
+          type of document
+
+          one of
+          ```
+          estimate, proposal, planning, requirements, wireframes, timeline, other
+          ```
+        required: yes
+      - name: description
+        type: string
+        desc: description of the document
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the document
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+    api:
+      - name: download_url
+        type: string
+        desc: absolute url for the document
+  api:
+    - title: Manage documents
+      url: https://tunga.io/api/docs/#/document
+- name: Participation
+  model: Participation
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: task
+        type: Task
+        internal: true
+        desc: |
+          [Task](#Task) the user is participating to
+        required: true
+      - name: user
+        type: User
+        internal: true
+        desc: participating user
+        required: yes
+      - name: status
+        type: string
+        desc: |
+          status of the user's participation
+
+          one of `initial, accepted, rejected`
+
+          default: `initial`
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the participation object
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage participation
+      url: https://tunga.io/api/docs/#/participation
+- name: Invoice
+  model: Invoice
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: task
+        type: Task
+        internal: true
+        desc: |
+          [Task](#Task) object for the user that will pay the invoice
+        required: true
+      - name: amout
+        type: string
+        desc: amount that will be paid
+        required: true
+      - name: currency
+        type: string
+        desc: |
+          [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code for the currency in which the payment will be made
+
+          default: `EUR`
+        required: auto
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the invoice
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage invoices
+      url: https://tunga.io/api/docs/#/invoice
+- name: Payment
+  model: Payment
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: invoice
+        type: Invoice
+        internal: true
+        desc: |
+          [Invoice](#Invoice) for which the payment will be made
+        required: true
+      - name: amout
+        type: string
+        desc: amount that will be paid
+        required: true
+      - name: currency
+        type: string
+        desc: |
+          [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code for the currency in which the payment will be made
+
+          default: `EUR`
+        required: auto
+      - name: payment_method
+        type: string
+        desc: |
+          one of `stripe, bank, bitcoin, bitonic`
+
+          all new payments are made with either `stripe` or `bank`, However, `bitcoin` and `bitonic` are supported for historical data
+        required: true
+      - name: paid_at
+        type: datetime
+        desc: timestamp of when payment receipt was confirmed
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the payment
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage payments
+      url: https://tunga.io/api/docs/#/payment
+- name: Payout
+  model: Payout
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: participant
+        type: Participation
+        internal: true
+        desc: |
+          [Participation](#Participation) object for the user that will receive the Payout
+        required: true
+      - name: amout
+        type: string
+        desc: amount that will be paid to the participant
+        required: true
+      - name: currency
+        type: string
+        desc: |
+          [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code for the currency in which the payout will be made
+
+          default: `EUR`
+        required: auto
+      - name: payment_method
+        type: string
+        desc: |
+          one of `payoneer, bitcoin`
+
+          default: `payoneer`
+
+          all new payouts will have this set to `payoneer` by default, `bitcoin` is only used for historical data
+        required: auto
+      - name: paid_at
+        type: datetime
+        desc: timestamp of when payout receipt was sent
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the payout
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage payouts
+      url: https://tunga.io/api/docs/#/payout
+- name: ProgressEvent
+  model: ProgressEvent
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user that created the progressevent
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage progress events
+      url: https://tunga.io/api/docs/#/progress-event
+- name: ProgressReport
+  model: ProgressReport
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user that created the progress report
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage progress reports
+      url: https://tunga.io/api/docs/#/progress-report
+- name: Comment
+  model: Comment
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user that created the comment
+        required: auto
+      - name: body
+        type: string
+        desc: the comment
+      - name: object_id
+        type: int
+        desc: id of the object the comment was added to
+      - name: content_type
+        type: ContentType
+        desc: |
+          [ContentType](#ContentType) of the object the comment was added to
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+      - title: Manage comments
+        url: https://tunga.io/api/docs/#/comment
+- name: Message
+  model: Message
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user that sent the message
+        required: auto
+      - name: body
+        type: string
+        desc: the message
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage messages
+      url: https://tunga.io/api/docs/#/message
+- name: Channel
+  model: Channel
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: type
+        type: int
+        desc: |
+          channel type
+
+          ```
+          1 = Direct, 2 = Topic, 3 = Support, 4 = Developer
+          ```
+
+          default: `2`
+      - name: subject
+        type: string
+        desc: topic of the channel
+      - name: last_read
+        type: int
+        desc: tracks last read activity id for guests
+      - name: object_id
+        type: int
+        desc: id of the object the channel was created for
+      - name: content_type
+        type: ContentType
+        desc: |
+          [ContentType](#ContentType) of the object the channel was created for
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the channel
+        required: no
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage channels
+      url: https://tunga.io/api/docs/#/channel
+- name: ContentType
+  model: ContentType
+  content: |
+    Django's built in ContentType model
+
+    [https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model](https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model)

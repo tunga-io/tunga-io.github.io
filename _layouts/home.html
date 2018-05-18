@@ -1,0 +1,58 @@
+---
+layout: default
+---
+
+<div class="home">
+  <h1 class="page-heading">Data Dictionary</h1>
+
+  {{ content }}
+
+  {%- if site.data.models.size > 0 -%}
+    {%- for model in site.data.models -%}
+      <section>
+        <h2 id="id{{ model.name }}">{{ forloop.index }}. {{ model.name | escape }}</h2>
+        <div class="section-info">
+          <h3>Model name:</h3>
+          <blockquote>{{ model.model }}</blockquote>
+        </div>
+
+        {%- for item in site.attribute_types -%}
+        {%- if model.attributes[item.key].size > 0 -%}
+        <h3>{{ item.title }}</h3>
+        <table>
+          <tr>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+          {%- for field in model.attributes[item.key] -%}
+          <tr>
+            <td>{{ field.name }}</td>
+            <td>{%- if field.internal -%}<a href="#id{{ field.type }}">{{ field.type | markdownify }}</a>{%- else -%}{{ field.type | markdownify }}{%- endif -%}</td>
+            <td>{%- if field.required -%}{{ field.required | markdownify }}{%- else -%}no{%- endif -%}</td>
+            <td>{{ field.desc | markdownify  }}</td>
+          </tr>
+          {%- endfor -%}
+        </table>
+        {%- endif -%}
+        {%- endfor -%}
+
+        {%- if model.api.size > 0 -%}
+        <h3>Relate API docs</h3>
+        <ul>
+          {%- for doc in model.api -%}
+          <li>{{ doc.title }} <a href="{{ doc.url }}" target="_blank">[{{ doc.url }}]</a></li>
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+
+        {{ model.content | markdownify }}
+
+        {%- if site.data.desc[model.name] -%}
+          {{ site.data.desc[model.name].content | markdownify }}
+        {%- endif -%}
+      </section>
+    {%- endfor -%}
+  {%- endif -%}
+</div>
