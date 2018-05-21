@@ -252,6 +252,20 @@
       - name: deadline
         type: date
         desc: desired deadline for the project
+      - name: cient_survey_enabled
+        type: boolean
+        desc: |
+          determines if surveys are enabled for this clients
+
+          default: `true`
+        required: auto
+      - name: pm_updates_enabled
+        type: boolean
+        desc: |
+          determines if updates are enabled for this pm
+
+          default: `true`
+        required: auto
       - name: created_at
         type: datetime
         required: auto
@@ -341,6 +355,7 @@
           determines if updates are enabled for this participant
 
           default: `true`
+        required: auto
       - name: created_by
         type: User
         internal: true
@@ -370,7 +385,7 @@
       - name: type
         type: string
         desc: |
-          status of the user's participation
+          type of invoice
 
           one of `client, tunga, developer`
 
@@ -409,7 +424,6 @@
         type: datetime
         required: auto
         desc: timestamp of when the object was created
-    api:
       - name: number
         type: string
         desc: unique invoice number for this invoice
@@ -430,6 +444,15 @@
         desc: |
           [Invoice](#Invoice) for which the payment will be made
         required: true
+      - name: type
+        type: string
+        desc: |
+          type of payout
+
+          one of `sale, purchase`
+
+          `sale` for tunga and developer invoices and `purchase` for tunga invoices
+        required: auto
       - name: amout
         type: string
         desc: amount that will be paid
@@ -463,55 +486,6 @@
   api:
     - title: Manage payments
       url: https://tunga.io/api/docs/#/payment
-- name: Payout
-  model: Payout
-  attributes:
-    schema:
-      - name: id
-        type: int
-        desc: primary key
-        required: auto
-      - name: participant
-        type: Participation
-        internal: true
-        desc: |
-          [Participation](#Participation) object for the user that will receive the Payout
-        required: true
-      - name: amout
-        type: string
-        desc: amount that will be paid to the participant
-        required: true
-      - name: currency
-        type: string
-        desc: |
-          [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code for the currency in which the payout will be made
-
-          default: `EUR`
-        required: auto
-      - name: payment_method
-        type: string
-        desc: |
-          one of `payoneer, bitcoin`
-
-          default: `payoneer`
-
-          all new payouts will have this set to `payoneer` by default, `bitcoin` is only used for historical data
-        required: auto
-      - name: paid_at
-        type: datetime
-        desc: timestamp of when payout receipt was sent
-      - name: created_by
-        type: User
-        internal: true
-        desc: user that created the payout
-        required: auto
-      - name: created_at
-        type: datetime
-        required: auto
-        desc: timestamp of when the object was created
-  api:
-    - title: Manage payouts
-      url: https://tunga.io/api/docs/#/payout
 - name: ProgressEvent
   model: ProgressEvent
   attributes:
