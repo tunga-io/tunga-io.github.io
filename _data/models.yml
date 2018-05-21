@@ -494,15 +494,47 @@
         type: int
         desc: primary key
         required: auto
-      - name: user
-        type: User
+      - name: task
+        type: Task
         internal: true
-        desc: user that created the progressevent
-        required: auto
+        desc: |
+          [Task](#Task) object associated with the event
+        required: true
+      - name: type
+        type: string
+        desc: |
+          event type
+
+          ```
+          developer = Developer Update, pm = PM Report, client = Client survey
+          ```
+        required: true
+      - name: title
+        type: string
+        required: true
+        desc: title of the event
+      - name: description
+        type: string
+        required: true
+        desc: description of the vent
+      - name: due_at
+        type: date
+        required: true
+        desc: date when a report for the event is due
       - name: created_at
         type: datetime
         required: auto
         desc: timestamp of when the object was created
+    api:
+      - name: is_participant
+        type: boolean
+        desc: true if current user is a participant in event
+        required: auto
+      - name: participants
+        type: User
+        internal: true
+        desc: list of all event participants
+        required: auto
   api:
     - title: Manage progress events
       url: progress-event
