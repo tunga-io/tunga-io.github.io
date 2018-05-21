@@ -605,6 +605,7 @@
         desc: id of the object the comment was added to
       - name: content_type
         type: ContentType
+        internal: true
         desc: |
           [ContentType](#ContentType) of the object the comment was added to
       - name: created_at
@@ -666,6 +667,7 @@
         desc: id of the object the channel was created for
       - name: content_type
         type: ContentType
+        internal: true
         desc: |
           [ContentType](#ContentType) of the object the channel was created for
       - name: created_by
