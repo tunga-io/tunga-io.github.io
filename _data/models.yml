@@ -335,6 +335,12 @@
           one of `initial, accepted, rejected`
 
           default: `initial`
+      - name: updates_enabled
+        type: boolean
+        desc: |
+          determines if updates are enabled for this participant
+
+          default: `true`
       - name: created_by
         type: User
         internal: true
@@ -361,8 +367,19 @@
         desc: |
           [Task](#Task) object for the user that will pay the invoice
         required: true
-      - name: amout
+      - name: type
         type: string
+        desc: |
+          status of the user's participation
+
+          one of `client, tunga, developer`
+
+          name denotes entity being invoiced.
+
+          `developer` is only for historical purposes
+        required: yes
+      - name: amout
+        type: number
         desc: amount that will be paid
         required: true
       - name: currency
@@ -372,6 +389,17 @@
 
           default: `EUR`
         required: auto
+      - name: tax_rate
+        type: number
+        desc: tax rate as a percentage e.g `20` for `20%`
+        required: true
+      - name: processing_fee
+        type: number
+        desc: |
+          processing fee that will be charged for the transaction
+
+          default: `0`
+        required: true
       - name: created_by
         type: User
         internal: true
@@ -381,6 +409,10 @@
         type: datetime
         required: auto
         desc: timestamp of when the object was created
+    api:
+      - name: number
+        type: string
+        desc: unique invoice number for this invoice
   api:
     - title: Manage invoices
       url: https://tunga.io/api/docs/#/invoice
