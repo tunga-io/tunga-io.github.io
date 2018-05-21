@@ -521,6 +521,15 @@
         type: date
         required: true
         desc: date when a report for the event is due
+      - name: last_reminder_at
+        type: datetime
+        desc: timestamp of when the last reminder about the event was sent to participants
+        required: auto
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the progress event
+        required: auto
       - name: created_at
         type: datetime
         required: auto
