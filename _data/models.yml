@@ -555,11 +555,28 @@
         type: int
         desc: primary key
         required: auto
+      - name: event
+        type: ProgressEvent
+        internal: true
+        desc: |
+          [ProgressEvent](#ProgressEvent) that for which the report is required
+        required: yes
       - name: user
         type: User
         internal: true
         desc: user that created the progress report
         required: auto
+      - name: status
+        type: string
+        desc: |
+          current status of the project/ task/ sprint/ milestone
+
+          one of
+          ```
+          onschedule, behind, stuck, behind_progressing, behind_stuck
+          ```
+        required: |
+          required for developer and pm events
       - name: created_at
         type: datetime
         required: auto
