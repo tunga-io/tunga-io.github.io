@@ -75,13 +75,13 @@
         desc: user's profile object
   api:
     - title: Inviting users
-      url: https://tunga.io/api/docs/#/invite
+      url: invite
     - title: Get current logged in user
       url: https://tunga.io/api/docs/#!/auth/auth_verify_list
     - title: Manage currently logged in user
-      url: https://tunga.io/api/docs/#/me
+      url: me
     - title: Manage users
-      url: https://tunga.io/api/docs/#/user
+      url: user
 - name: Profile
   model: UserProfile
   attributes:
@@ -161,7 +161,7 @@
           ```
   api:
     - title: Manage currently logged in user
-      url: https://tunga.io/api/docs/#/me
+      url: me
 - name: Skill
   model: Skill
   attributes:
@@ -272,7 +272,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage projects
-      url: https://tunga.io/api/docs/#/task
+      url: task
 - name: Document
   model: TaskDocument
   attributes:
@@ -321,7 +321,7 @@
         desc: absolute url for the document
   api:
     - title: Manage documents
-      url: https://tunga.io/api/docs/#/document
+      url: document
 - name: Participation
   model: Participation
   attributes:
@@ -367,7 +367,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage participation
-      url: https://tunga.io/api/docs/#/participation
+      url: participation
 - name: Invoice
   model: Invoice
   attributes:
@@ -429,7 +429,7 @@
         desc: unique invoice number for this invoice
   api:
     - title: Manage invoices
-      url: https://tunga.io/api/docs/#/invoice
+      url: invoice
 - name: Payment
   model: Payment
   attributes:
@@ -485,7 +485,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage payments
-      url: https://tunga.io/api/docs/#/payment
+      url: payment
 - name: ProgressEvent
   model: ProgressEvent
   attributes:
@@ -505,7 +505,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage progress events
-      url: https://tunga.io/api/docs/#/progress-event
+      url: progress-event
 - name: ProgressReport
   model: ProgressReport
   attributes:
@@ -525,7 +525,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage progress reports
-      url: https://tunga.io/api/docs/#/progress-report
+      url: progress-report
 - name: Comment
   model: Comment
   attributes:
@@ -555,7 +555,7 @@
         desc: timestamp of when the object was created
   api:
       - title: Manage comments
-        url: https://tunga.io/api/docs/#/comment
+        url: comment
 - name: Message
   model: Message
   attributes:
@@ -578,7 +578,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage messages
-      url: https://tunga.io/api/docs/#/message
+      url: message
 - name: Channel
   model: Channel
   attributes:
@@ -621,7 +621,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage channels
-      url: https://tunga.io/api/docs/#/channel
+      url: channel
 - name: ContentType
   model: ContentType
   content: |
