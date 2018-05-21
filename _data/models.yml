@@ -135,6 +135,9 @@
         desc: |
           absolute url of user’s
           only applies to clients
+      - name: skype_id
+        type: string
+        desc: user's skype id
     api:
       - name: country_name
         type: string
@@ -237,6 +240,18 @@
 
           default: `other`
         required: yes
+      - name: expected_duration
+        type: string
+        desc: |
+          type of project
+
+          one of `2w - 2 weeks, 6m - 6 months, permanent`
+
+          default: `none`
+        required: no
+      - name: deadline
+        type: date
+        desc: desired deadline for the project
       - name: created_at
         type: datetime
         required: auto
