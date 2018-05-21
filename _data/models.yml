@@ -252,7 +252,7 @@
       - name: deadline
         type: date
         desc: desired deadline for the project
-      - name: cient_survey_enabled
+      - name: client_survey_enabled
         type: boolean
         desc: |
           determines if surveys are enabled for this clients

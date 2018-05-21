@@ -59,3 +59,17 @@ table {
   }
 }
 
+.home {
+  nav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      a {
+        color: $brand-color;
+      }
+    }
+  }
+}
+
