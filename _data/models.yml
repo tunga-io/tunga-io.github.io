@@ -286,7 +286,7 @@
         internal: true
         desc: |
           [Task](#Task) object the document is related to
-        required: true
+        required: yes
       - name: url
         type: string
         desc: absolute url for the document, used for shared documents links e.g Google Drive and Dropbox
@@ -335,7 +335,7 @@
         internal: true
         desc: |
           [Task](#Task) the user is participating to
-        required: true
+        required: yes
       - name: user
         type: User
         internal: true
@@ -381,7 +381,7 @@
         internal: true
         desc: |
           [Task](#Task) object for the user that will pay the invoice
-        required: true
+        required: yes
       - name: type
         type: string
         desc: |
@@ -396,7 +396,7 @@
       - name: amout
         type: number
         desc: amount that will be paid
-        required: true
+        required: yes
       - name: currency
         type: string
         desc: |
@@ -407,14 +407,14 @@
       - name: tax_rate
         type: number
         desc: tax rate as a percentage e.g `20` for `20%`
-        required: true
+        required: yes
       - name: processing_fee
         type: number
         desc: |
           processing fee that will be charged for the transaction
 
           default: `0`
-        required: true
+        required: yes
       - name: created_by
         type: User
         internal: true
@@ -443,7 +443,7 @@
         internal: true
         desc: |
           [Invoice](#Invoice) for which the payment will be made
-        required: true
+        required: yes
       - name: type
         type: string
         desc: |
@@ -456,7 +456,7 @@
       - name: amout
         type: string
         desc: amount that will be paid
-        required: true
+        required: yes
       - name: currency
         type: string
         desc: |
@@ -470,7 +470,7 @@
           one of `stripe, bank, bitcoin, bitonic`
 
           all new payments are made with either `stripe` or `bank`, However, `bitcoin` and `bitonic` are supported for historical data
-        required: true
+        required: yes
       - name: paid_at
         type: datetime
         desc: timestamp of when payment receipt was confirmed
@@ -499,7 +499,7 @@
         internal: true
         desc: |
           [Task](#Task) object associated with the event
-        required: true
+        required: yes
       - name: type
         type: string
         desc: |
@@ -508,18 +508,18 @@
           ```
           developer = Developer Update, pm = PM Report, client = Client survey
           ```
-        required: true
+        required: yes
       - name: title
         type: string
-        required: true
+        required: yes
         desc: title of the event
       - name: description
         type: string
-        required: true
+        required: yes
         desc: description of the vent
       - name: due_at
         type: date
-        required: true
+        required: yes
         desc: date when a report for the event is due
       - name: last_reminder_at
         type: datetime
@@ -576,7 +576,9 @@
           onschedule, behind, stuck, behind_progressing, behind_stuck
           ```
         required: |
-          required for developer and pm events
+          yes - for `developer` and `pm` events
+
+          no - for `client` events
       - name: created_at
         type: datetime
         required: auto
