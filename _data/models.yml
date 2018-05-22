@@ -31,7 +31,7 @@
         desc: |
           type of user
           ```
-          1 = Developer, 2 = Project Owner, 3 = Project Manager
+          developer, project_owner, project_manager, admin
           ```
       - name: image
         type: string
@@ -77,7 +77,7 @@
     - title: Inviting users
       url: invite
     - title: Get current logged in user
-      url: auth/auth_verify_list
+      url: https://tunga.io/api/docs/#!/auth/auth_verify_list
     - title: Manage currently logged in user
       url: me
     - title: Manage users
@@ -654,10 +654,10 @@
           channel type
 
           ```
-          1 = Direct, 2 = Topic, 3 = Support, 4 = Developer
+          direct, topic, support, developer
           ```
 
-          default: `2`
+          default: `topic`
       - name: subject
         type: string
         desc: topic of the channel

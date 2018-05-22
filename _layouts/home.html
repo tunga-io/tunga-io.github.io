@@ -3,8 +3,10 @@ layout: default
 ---
 
 <div class="home">
+  <h1 class="page-heading">Data Dictionary</h1>
+
   <div class="row">
-    <nav class="col-sm-3">
+    <nav class="col-sm-2">
       {%- if site.data.models.size > 0 -%}
       <ul data-spy="affix" data-offset-top="0">
         {%- for model in site.data.models -%}
@@ -14,11 +16,7 @@ layout: default
       {%- endif -%}
     </nav>
 
-    <div class="col-md-9">
-      <h1 class="page-heading">Data Dictionary</h1>
-
-      {{ content }}
-
+    <div class="col-md-10">
       {%- if site.data.models.size > 0 -%}
       {%- for model in site.data.models -%}
       <section>
