@@ -38,10 +38,14 @@ layout: default
           </tr>
           {%- for field in model.attributes[item.key] -%}
           <tr>
-            <td>{{ field.name }}</td>
-            <td>{%- if field.internal -%}<a href="#id{{ field.type }}">{{ field.type | markdownify }}</a>{%- else -%}{{ field.type | markdownify }}{%- endif -%}</td>
-            <td>{%- if field.required -%}{{ field.required | markdownify }}{%- else -%}no{%- endif -%}</td>
-            <td>{{ field.desc | markdownify  }}</td>
+            {%- if field.heading -%}
+              <th colspan="4">{{ field.title | markdownify }}</th>
+            {%- else -%}
+              <td>{{ field.name }}</td>
+              <td>{%- if field.internal -%}<a href="#id{{ field.type }}">{{ field.type | markdownify }}</a>{%- else -%}{{ field.type | markdownify }}{%- endif -%}</td>
+              <td>{%- if field.required -%}{{ field.required | markdownify }}{%- else -%}no{%- endif -%}</td>
+              <td>{{ field.desc | markdownify  }}</td>
+            {%- endif -%}
           </tr>
           {%- endfor -%}
         </table>

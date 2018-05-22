@@ -559,13 +559,20 @@
         type: ProgressEvent
         internal: true
         desc: |
-          [ProgressEvent](#ProgressEvent) that for which the report is required
+          [ProgressEvent](#ProgressEvent) for which the report is required
         required: yes
       - name: user
         type: User
         internal: true
         desc: user that created the progress report
         required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+      - heading: true
+        title: |
+          `developer` and `pm` reports only
       - name: status
         type: string
         desc: |
@@ -573,16 +580,162 @@
 
           one of
           ```
-          onschedule, behind, stuck, behind_progressing, behind_stuck
+          onschedule, behind_progressing, behind_stuck, behind, stuck
           ```
+
+          `behind` and `stuck` are only for historical purposes
         required: |
           yes - for `developer` and `pm` events
 
-          no - for `client` events
-      - name: created_at
-        type: datetime
-        required: auto
-        desc: timestamp of when the object was created
+          no - for all other cases
+      - name: stuck_reason
+        type: string
+        desc: |
+          reason for being stuck if `status` is either `behind_stuck` or `stuck` for `developer` and `pm` events
+
+          one of
+          ```
+          resolving_error, poor_doc, hardware_problem, unclear_spec, personal_issue, other
+          ```
+        required: |
+          yes - only if `status` is either `behind_stuck` or `stuck` for `developer` and `pm` events
+
+          no - for all other cases
+      - name: stuck_report
+        type: string
+        desc: |
+          detailed reason for being stuck if `stuck_reason` is `other` for `developer` and `pm` events
+        required: |
+          yes - only if `stuck_reason` is `other` for `developer` and `pm` events
+
+          no - for all other cases
+      - name: percentage
+        type: number
+        desc: an integer `1 to 100` representing the percentage of the project/ task/ sprint completed
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: accomplished
+        type: string
+        desc: description of what has been accomplished since the last update
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: todo
+        type: string
+        desc: description of what is now being done
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: next_deadline
+        type: date
+        desc: date for next deadline
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: next_deadline_meet
+        type: boolean
+        desc: indicates whether the next deadline will be met
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: next_deadline_fail_reason
+        type: string
+        desc: reason why the next deadline will not be met
+        required: |
+          yes - only for `developer` and `pm` events for which `next_deadline_meet` is `false`
+
+          no - for all other cases
+      - heading: true
+        title: |
+          `developer` and `client` reports only
+      - name: rate_deliverables
+        type: number
+        desc: an integer `1 to 5` representing the rating for what has been delivered
+        required: |
+          yes - for `developer` and `client` events
+
+          no - for all other cases
+      - heading: true
+        title: |
+          `pm` and `client` reports only
+      - name: last_deadline_met
+        type: boolean
+        desc: indicates whether the last deadline was be met
+        required: |
+          yes - for `developer` and `pm` events
+
+          no - for all other cases
+      - name: deadline_miss_communicated
+        type: boolean
+        desc: expresses whether the last deadline miss was communicated beforehand
+        required: |
+          yes - only for `pm` and `client` events for which `last_deadline_met` is `false`
+
+          no - for all other cases
+      - heading: true
+        title: |
+          `developer` reports only
+      - name: started_at
+        type: date
+        desc: date when the project/ task/ sprint was started
+        required: |
+          yes - for `developer` events
+
+          no - for all other cases
+      - heading: true
+        title: |
+          `pm` reports only
+      - name: deadline_report
+        type: string
+        desc: reason why the last deadline was not be met
+        required: |
+          yes - only for `pm` events for which `last_deadline_met` is `false`
+
+          no - for all other cases
+      - name: team_appraisal
+        type: string
+        desc: detailed description of the team's performance
+        required: |
+          yes - only for `pm` events
+
+          no - for all other cases
+      - heading: true
+        title: |
+          `client` reports only
+      - name: deliverable_satisfaction
+        type: boolean
+        desc: detailed description of the team's performance
+        required: |
+          yes - only for `client` events
+
+          no - for all other cases
+      - name: rate_communication
+        type: number
+        desc: an integer `1 to 5` representing the rating for communication with PM and developers
+        required: |
+          yes - for `client` events
+
+          no - for all other cases
+      - name: deliverable_report
+        type: string
+        desc: reason why `deliverable_satisfaction` is `false` or `rate_deliverables` is lower than `3`
+        required: |
+          yes - only for `client` events for which `deliverable_satisfaction` is `false` or `rate_deliverables` is lower than `3`
+
+          no - for all other cases
+      - name: communication_report
+        type: string
+        desc: reason why `rate_communication` is lower than `3`
+        required: |
+          yes - only for `client` events for which `rate_communication` is less than `3`
+
+          no - for all other cases
   api:
     - title: Manage progress reports
       url: progress-report
@@ -689,4 +842,4 @@
   content: |
     Django's built in ContentType model
 
-    [https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model](https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model)
+    [https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model](https://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#the-contenttype-model){:target="_blank"}
