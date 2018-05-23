@@ -563,8 +563,13 @@
         type: Project
         internal: true
         desc: |
-          [Project](#Project) object for the user that will pay the invoice
+          [Project](#Project) for the invoice
         required: yes
+      - name: user
+        type: User
+        internal: true
+        desc: user invoicing (for `tunga` invoices) or being invoiced (for `client` and `developer`)
+        required: true
       - name: type
         type: string
         desc: |
