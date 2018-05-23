@@ -171,6 +171,77 @@
   api:
     - title: Manage currently logged in user
       url: me
+- name: Company
+  model: Company
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: name
+        type: string
+        desc: registered name of the company
+      - name: country
+        type: string
+        desc: |
+          country in which company is located
+
+          must be an [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+          e.g `UG for Uganda, NL - The Netherlands`
+      - name: city
+        type: string
+        desc: city in which company is located
+      - name: street
+        type: string
+        desc: company street address
+      - name: plot_number
+        type: string
+        desc: company plot number
+      - name: postal_code
+        type: string
+        desc: company postal code
+      - name: postal_address
+        type: string
+        desc: company postal address
+      - name: tel_number
+        type: string
+        desc: company telephone number
+      - name: vat_number
+        type: string
+        desc: company vat number
+      - name: reg_no
+        type: string
+        desc: company registration number
+    api:
+      - name: country_name
+        type: string
+        desc: full country name e.g `Uganda` for `UG`
+      - name: city_name
+        type: string
+        desc: string reprensentation of city object
+      - name: location
+        type: string
+        desc: |
+          `City, Country` location e.g `Kampala, Uganda`
+      - name: skills
+        type: |
+          list<[Skill](#Skill)>
+        desc: |
+          list of [Skill](#Skill) objects
+      - name: skills_details
+        type: |
+          hash<list<[Skill](#Skill)>>
+        desc: |
+          hash of [Skill](#Skill) object lists where each hash key is a skill category
+
+          ```
+          language, framework, platform, library, storage, api and other
+          ```
+  api:
+    - title: Manage currently logged in user
+      url: me
 - name: Skill
   model: Skill
   attributes:
