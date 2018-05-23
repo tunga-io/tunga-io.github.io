@@ -90,6 +90,11 @@
         type: int
         desc: primary key
         required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: owner of the profile
+        required: auto
       - name: country
         type: string
         desc: |
@@ -145,6 +150,10 @@
       - name: city_name
         type: string
         desc: string reprensentation of city object
+      - name: location
+        type: string
+        desc: |
+          `City, Country` location e.g `Kampala, Uganda`
       - name: skills
         type: |
           list<[Skill](#Skill)>
@@ -177,7 +186,111 @@
 
           e.g `MongoDB, JavaScript e.t.c`
         required: yes
-- name: Project/ Task
+- name: Education
+  model: Education
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: owner of the education info
+        required: auto
+      - name: institution
+        type: string
+        desc: name of the institution/ school
+        required: yes
+      - name: award
+        type: string
+        desc: name of the award after e.g `Bachelor of Science in Mathematics`
+        required: yes
+      - name: start_month
+        type: number
+        desc: |
+          integer for start month for duration of education award
+
+          values `1 to 12` for `January to December`
+        required: yes
+      - name: start_year
+        type: number
+        desc: start year for duration of education award
+        required: yes
+      - name: end_month
+        type: number
+        desc: |
+          integer for end month for duration of education award
+
+          values `1 to 12` for `January to December`
+      - name: end_year
+        type: number
+        desc: end year for duration of education award
+      - name: details
+        type: string
+        desc: detailed description of the education award
+        required: yes
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage education
+      url: education
+- name: Experience
+  model: Work
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: owner of the education info
+        required: auto
+      - name: company
+        type: string
+        desc: name of the company
+        required: yes
+      - name: position
+        type: string
+        desc: position/title of the company after e.g `Senior Software Engineer`
+        required: yes
+      - name: start_month
+        type: number
+        desc: |
+          integer for start month for duration of education award
+
+          values `1 to 12` for `January to December`
+        required: yes
+      - name: start_year
+        type: number
+        desc: start year for duration of education award
+        required: yes
+      - name: end_month
+        type: number
+        desc: |
+          integer for end month for duration of education award
+
+          values `1 to 12` for `January to December`
+      - name: end_year
+        type: number
+        desc: end year for duration of education award
+      - name: details
+        type: string
+        desc: detailed description of the education award
+        required: yes
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage experience
+      url: work
+- name: Project
   model: Task
   attributes:
     schema:
@@ -188,31 +301,29 @@
       - name: user
         type: User
         internal: true
-        desc: user that created the task (owner by default)
+        desc: user that created the project (owner by default)
         required: auto
       - name: title
         type: string
         required: yes
-        desc: brief title of the project/ task
+        desc: brief title of the project
       - name: description
         type: string
         required: yes
-        desc: more detailed decription of the project/ task
+        desc: more detailed decription of the project
       - name: owner
         type: User
         internal: true
-        desc: the owner of the task (overrides user when set)
-        required: no
+        desc: the owner of the project (overrides user when set)
       - name: pm
         type: User
         internal: true
-        desc: project manager for the task, only applies to projects
-        required: no
+        desc: project manager for the project
       - name: skills
         type: |
           list<[Skill](#Skill)>
         desc: |
-          a list of skills needed to complete the task
+          a list of skills needed to complete the project
 
           saved and parsed as a string of comma separated values e.g
 
@@ -223,7 +334,6 @@
       - name: budget
         type: string
         desc: budget for the project
-        required: no
       - name: currency
         type: string
         desc: |
@@ -248,7 +358,6 @@
           one of `2w - 2 weeks, 6m - 6 months, permanent`
 
           default: `none`
-        required: no
       - name: deadline
         type: date
         desc: desired deadline for the project
@@ -272,7 +381,7 @@
         desc: timestamp of when the object was created
   api:
     - title: Manage projects
-      url: task
+      url: project
 - name: Document
   model: TaskDocument
   attributes:
@@ -281,18 +390,21 @@
         type: int
         desc: primary key
         required: auto
-      - name: task
-        type: Task
+      - name: project
+        type: Project
         internal: true
         desc: |
-          [Task](#Task) object the document is related to
+          [Project](#Project) object the document is related to
         required: yes
       - name: url
         type: string
         desc: absolute url for the document, used for shared documents links e.g Google Drive and Dropbox
       - name: file
         type: object
-        desc: Uploaded file object, used for directly uploaded documents
+        desc: |
+          Uploaded file object
+
+          used for directly uploaded documents
       - name: type
         type: string
         desc: |
@@ -330,11 +442,11 @@
         type: int
         desc: primary key
         required: auto
-      - name: task
+      - name: project
         type: Task
         internal: true
         desc: |
-          [Task](#Task) the user is participating to
+          [Project](#Project) the user is participating to
         required: yes
       - name: user
         type: User
@@ -376,11 +488,11 @@
         type: int
         desc: primary key
         required: auto
-      - name: task
-        type: Task
+      - name: project
+        type: Project
         internal: true
         desc: |
-          [Task](#Task) object for the user that will pay the invoice
+          [Project](#Project) object for the user that will pay the invoice
         required: yes
       - name: type
         type: string
@@ -444,15 +556,6 @@
         desc: |
           [Invoice](#Invoice) for which the payment will be made
         required: yes
-      - name: type
-        type: string
-        desc: |
-          type of payout
-
-          one of `sale, purchase`
-
-          `sale` for tunga and developer invoices and `purchase` for tunga invoices
-        required: auto
       - name: amout
         type: string
         desc: amount that will be paid
@@ -483,6 +586,15 @@
         type: datetime
         required: auto
         desc: timestamp of when the object was created
+    api:
+      - name: type
+        type: string
+        desc: |
+          type of payment
+
+          one of `sale, purchase`
+
+          `sale` for client and developer invoices and `purchase` for tunga invoices
   api:
     - title: Manage payments
       url: payment
@@ -494,11 +606,11 @@
         type: int
         desc: primary key
         required: auto
-      - name: task
-        type: Task
+      - name: project
+        type: Project
         internal: true
         desc: |
-          [Task](#Task) object associated with the event
+          [Project](#Project) object associated with the event
         required: yes
       - name: type
         type: string
@@ -576,7 +688,7 @@
       - name: status
         type: string
         desc: |
-          current status of the project/ task/ sprint/ milestone
+          current status of the project or sprint
 
           one of
           ```
@@ -611,7 +723,7 @@
           no - for all other cases
       - name: percentage
         type: number
-        desc: an integer `1 to 100` representing the percentage of the project/ task/ sprint completed
+        desc: an integer `1 to 100` representing the percentage of the project or sprint completed
         required: |
           yes - for `developer` and `pm` events
 
@@ -683,7 +795,7 @@
           `developer` reports only
       - name: started_at
         type: date
-        desc: date when the project/ task/ sprint was started
+        desc: date when the project or sprint was started
         required: |
           yes - for `developer` events
 
@@ -778,11 +890,15 @@
         type: int
         desc: primary key
         required: auto
+      - name: channel
+        type: Channel
+        internal: true
+        desc: |
+          [Channel](#Channel) the message was sent in
       - name: user
         type: User
         internal: true
         desc: user that sent the message
-        required: auto
       - name: body
         type: string
         desc: the message
@@ -790,6 +906,25 @@
         type: datetime
         required: auto
         desc: timestamp of when the object was created
+      - name: alt_user
+        type: json
+        desc: user object for external messages e.g Slack responses
+      - name: source
+        type: string
+        desc: |
+          message source
+
+          either `null` or `slack`
+      - name: extra
+        type: json
+        desc: extra details about external messages e.g from Slack
+    api:
+      - name: sender
+        type: object
+        desc: |
+          consolidated object representing the message sender user either user or alt_user or channel inquirer as the data source
+
+          must include `id`, `name`, `display_name` and `short_name` with optional `email`, `avatar_url` and `inquirer` fields
   api:
     - title: Manage messages
       url: message
@@ -811,6 +946,7 @@
           ```
 
           default: `topic`
+        required: auto
       - name: subject
         type: string
         desc: topic of the channel
@@ -829,7 +965,6 @@
         type: User
         internal: true
         desc: user that created the channel
-        required: no
       - name: created_at
         type: datetime
         required: auto
@@ -837,6 +972,63 @@
   api:
     - title: Manage channels
       url: channel
+- name: ChannelUser
+  model: ChannelUser
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: channel
+        type: Channel
+        internal: true
+        desc: |
+          [Channel](#Channel) the participant is part of
+        required: yes
+      - name: user
+        type: User
+        internal: true
+        desc: user that is participating in the channel
+        required: yes
+      - name: last_read
+        type: int
+        desc: tracks last read activity id for participant
+      - name: last_email_at
+        type: datetime
+        desc: timestamp of when the last email about the missed messages was sent
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+- name: Upload
+  model: Upload
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: file
+        type: object
+        desc: Uploaded file object
+      - name: user
+        type: User
+        internal: true
+        desc: user that uploaded the file
+      - name: object_id
+        type: int
+        desc: id of the object the file was uploaded to
+      - name: content_type
+        type: ContentType
+        internal: true
+        desc: |
+          [ContentType](#ContentType) of the object the file was uploaded to
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the file was uploaded
 - name: ContentType
   model: ContentType
   content: |
