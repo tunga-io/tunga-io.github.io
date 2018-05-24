@@ -362,7 +362,7 @@
     - title: Manage experience
       url: work
 - name: Project
-  model: Task
+  model: Project
   attributes:
     schema:
       - name: id
@@ -514,7 +514,7 @@
         desc: primary key
         required: auto
       - name: project
-        type: Task
+        type: Project
         internal: true
         desc: |
           [Project](#Project) the user is participating to
@@ -615,6 +615,21 @@
       - name: number
         type: string
         desc: unique invoice number for this invoice
+        required: auto
+      - name: batch_ref
+        type: string (uuid4)
+        desc: |
+          unique reference for invoices created by a batch request e.g one payout to multiple devs
+        required: false
+    api:
+      - name: tax_amount
+        type: number
+        desc: tax amount calculated from the amount and tax_rate
+        required: auto
+      - name: paid
+        type: boolean
+        desc: indicates whether invoice has been paid
+        required: auto
   api:
     - title: Manage invoices
       url: invoice
