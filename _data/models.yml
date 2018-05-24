@@ -450,6 +450,13 @@
         type: datetime
         required: auto
         desc: timestamp of when the object was created
+      - name: archived
+        type: boolean
+        desc: indicates whether the object is archived
+      - name: archived_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was archived
   api:
     - title: Manage projects
       url: project
