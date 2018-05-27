@@ -631,7 +631,12 @@
     api:
       - name: tax_amount
         type: number
-        desc: tax amount calculated from the amount and tax_rate
+        desc: |
+          tax amount calculated from the amount and tax_rate
+
+          ```
+          amount * (tax_rate/100)
+          ```
         required: auto
       - name: paid
         type: boolean
