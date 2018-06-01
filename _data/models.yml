@@ -644,7 +644,7 @@
         required: auto
   api:
     - title: Manage invoices
-      url: invoice
+      url: invoices
 - name: Payment
   model: Payment
   attributes:
@@ -700,7 +700,7 @@
           `sale` for client and developer invoices and `purchase` for tunga invoices
   api:
     - title: Manage payments
-      url: payment
+      url: payments
 - name: ProgressEvent
   model: ProgressEvent
   attributes:
