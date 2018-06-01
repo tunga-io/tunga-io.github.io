@@ -7,6 +7,7 @@ permalink: guides/development
 
 ## Glossary:
 API - Application Programming Interface
+
 DRY - Don’t Repeat Yourself
 
 IDE - Integrated Development Environment
