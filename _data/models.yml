@@ -628,6 +628,12 @@
         desc: |
           unique reference for invoices created by a batch request e.g one payout to multiple devs
         required: false
+      - name: paid
+        type: boolean
+        desc: indicates whether invoice has been paid
+      - name: paid_at
+        type: datetime
+        desc: timestamp of when payment receipt was confirmed
     api:
       - name: tax_amount
         type: number
@@ -637,10 +643,6 @@
           ```
           amount * (tax_rate/100)
           ```
-        required: auto
-      - name: paid
-        type: boolean
-        desc: indicates whether invoice has been paid
         required: auto
   api:
     - title: Manage invoices
