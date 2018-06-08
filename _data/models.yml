@@ -588,6 +588,13 @@
 
           `developer` is only for historical purposes
         required: yes
+      - name: title
+        type: string
+        desc: |
+          title of the invoice
+
+          default: title of the project
+        required: no
       - name: amout
         type: number
         desc: amount that will be paid
@@ -634,6 +641,15 @@
       - name: paid_at
         type: datetime
         desc: timestamp of when payment receipt was confirmed
+      - name: status
+        type: string
+        desc: |
+          one of `pending, approved or canceled`
+
+          default: `approved` for `client` and `developer` invoice types and `pending` for tunga invoices
+
+          setting this field to `approved` for `tunga` invoice types will trigger a payout
+        required: auto
     api:
       - name: tax_amount
         type: number
