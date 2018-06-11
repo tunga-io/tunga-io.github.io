@@ -11,5 +11,6 @@ layout: default
 # Internal Development
 
 - [Data Dictionary](/docs/data-dictionary)
-- [API Explorer](http://sandbox.tunga.io/api/docs){:target="_blank"}
 - [Font Icons](http://resources.tunga.io/tunga-assets/icons/latest/demo.html){:target="_blank"}
+- [Style & Component Guide](http://sandbox.tunga.io/guide.html){:target="_blank"}
+- [API Explorer](http://sandbox.tunga.io/api/docs){:target="_blank"}
