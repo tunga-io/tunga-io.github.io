@@ -179,6 +179,11 @@
         type: int
         desc: primary key
         required: auto
+      - name: user
+        type: User
+        internal: true
+        desc: user who created the company
+        required: auto
       - name: name
         type: string
         desc: registered name of the company
@@ -214,6 +219,23 @@
       - name: reg_no
         type: string
         desc: company registration number
+      - name: website
+        type: string
+        desc: company website
+      - name: city
+        type: string
+        desc: a brief decription of the company
+      - name: skills
+        type: |
+          list<[Skill](#Skill)>
+        desc: |
+                a list of the skills needed by the company
+
+                saved and parsed as a string of comma separated values e.g
+
+                ```
+                React.js, Django, "Amazon Web Services"
+                ```
     api:
       - name: country_name
         type: string
@@ -240,8 +262,8 @@
           language, framework, platform, library, storage, api and other
           ```
   api:
-    - title: Manage currently logged in user
-      url: me
+    - title: Manage currently logged in companies
+      url: companies
 - name: Skill
   model: Skill
   attributes:
