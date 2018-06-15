@@ -222,7 +222,7 @@
       - name: website
         type: string
         desc: company website
-      - name: city
+      - name: bio
         type: string
         desc: a brief decription of the company
       - name: skills
