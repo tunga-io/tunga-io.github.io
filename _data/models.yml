@@ -26,7 +26,7 @@
         type: datetime
         desc: date and time at which the user was joined Tunga
         required: auto
-      - name: type
+      - name: account_type
         type: int
         desc: |
           type of user
@@ -483,7 +483,7 @@
     - title: Manage projects
       url: project
 - name: Document
-  model: TaskDocument
+  model: Document
   attributes:
     schema:
       - name: id
@@ -515,6 +515,9 @@
           estimate, proposal, planning, requirements, wireframes, timeline, other
           ```
         required: yes
+      - name: title
+        type: string
+        desc: title of the document
       - name: description
         type: string
         desc: description of the document
