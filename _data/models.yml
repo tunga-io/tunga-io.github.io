@@ -451,6 +451,9 @@
           one of `2w - 2 weeks, 6m - 6 months, permanent`
 
           default: `none`
+      - name: start_date
+        type: date
+        desc: start date for the project
       - name: deadline
         type: date
         desc: desired deadline for the project
@@ -786,6 +789,10 @@
       - name: last_reminder_at
         type: datetime
         desc: timestamp of when the last reminder about the event was sent to participants
+        required: auto
+      - name: missed_notification_at
+        type: datetime
+        desc: timestamp of when the missed notification was sent to Tunga
         required: auto
       - name: created_by
         type: User
