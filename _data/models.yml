@@ -594,6 +594,45 @@
   api:
     - title: Manage participation
       url: participation
+- name: InterestPoll
+  model: InterestPoll
+  attributes:
+    schema:
+      - name: id
+        type: int
+        desc: primary key
+        required: auto
+      - name: project
+        type: Project
+        internal: true
+        desc: |
+          [Project](#Project) the user is being polled about
+        required: yes
+      - name: user
+        type: User
+        internal: true
+        desc: polled user
+        required: yes
+      - name: status
+        type: string
+        desc: |
+          status of the user's poll
+
+          one of `initial, interested, uninterested`
+
+          default: `initial`
+      - name: created_by
+        type: User
+        internal: true
+        desc: user that created the participation object
+        required: auto
+      - name: created_at
+        type: datetime
+        required: auto
+        desc: timestamp of when the object was created
+  api:
+    - title: Manage Interest Pill
+      url: interest-poll
 - name: Invoice
   model: Invoice
   attributes:
