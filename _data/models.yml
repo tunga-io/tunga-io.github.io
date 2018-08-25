@@ -451,6 +451,14 @@
           one of `2w - 2 weeks, 6m - 6 months, permanent`
 
           default: `none`
+      - name: stage
+        type: string
+        desc: |
+          stage of the project
+
+          one of `opportunity, active`
+
+          default: `active`
       - name: start_date
         type: date
         desc: start date for the project
